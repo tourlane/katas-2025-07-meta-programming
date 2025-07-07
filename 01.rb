@@ -1,15 +1,21 @@
 require "bundler"
 require "rspec/autorun"
 
-describe "#occurence_counter" do
-  it "counts" do
-    result = occurence_counter("to be or not to be")
-    occurences = { "to" => 2, "be" => 2, "or" => 1, "not" => 1 }
+describe "#bench" do
+  it "measures the time spent within the block" do
+    delay = 0.1
+    time = bench { sleep delay }
 
-    expect(result).to eq(occurences)
+    expect(time).to be_within(0.01).of(delay)
   end
 end
 
-def occurence_counter(phrase)
-  phrase.split.tally
+######
+#
+# Task: Implement a simple method to benchmark a block of code.
+#
+def bench
+  t1 = Time.now
+  yield
+  Time.now - t1
 end
